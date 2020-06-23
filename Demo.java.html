@@ -1,0 +1,295 @@
+<html>
+<head>
+<title>Demo.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6897bb;}
+.s3 { color: #808080;}
+.s4 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Demo.java</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">java.awt.Container</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.awt.GridLayout</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.awt.event.ActionEvent</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.awt.event.ActionListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.io.BufferedReader</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.io.FileNotFoundException</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.io.FileReader</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.io.FileWriter</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.io.IOException</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.Scanner</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.concurrent.SynchronousQueue</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">javax.swing.JButton</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javax.swing.JFrame</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javax.swing.JPanel</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javax.swing.WindowConstants</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javax.swing.text.html.HTMLDocument.Iterator</span><span class="s0">;</span>
+
+
+<span class="s0">class </span><span class="s1">Infro{</span>
+    <span class="s0">public </span><span class="s1">String id</span><span class="s0">;</span>
+    <span class="s0">public </span><span class="s1">String name</span><span class="s0">;</span>
+    <span class="s0">public </span><span class="s1">String sex</span><span class="s0">;</span>
+    <span class="s0">public </span><span class="s1">String address</span><span class="s0">;</span>
+    <span class="s0">public </span><span class="s1">String e_mail</span><span class="s0">;</span>
+    <span class="s0">public </span><span class="s1">String phoneNumber</span><span class="s0">;</span>
+    <span class="s0">static int </span><span class="s1">index = </span><span class="s2">0</span><span class="s0">;</span>
+    <span class="s0">static </span><span class="s1">ArrayList&lt;Infro&gt; list = </span><span class="s0">new </span><span class="s1">ArrayList()</span><span class="s0">;</span>
+    <span class="s0">static int </span><span class="s1">len = list.size()</span><span class="s0">;</span>
+    <span class="s3">//构造函数</span>
+    <span class="s0">public </span><span class="s1">Infro(String id</span><span class="s0">,</span><span class="s1">String name</span><span class="s0">,</span><span class="s1">String sex</span><span class="s0">,</span><span class="s1">String address</span><span class="s0">,</span><span class="s1">String e_mail</span><span class="s0">,</span><span class="s1">String phoneNumber){</span>
+        <span class="s0">this</span><span class="s1">.id = id</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.name = name</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.sex = sex</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.address = address</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.e_mail = e_mail</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.phoneNumber = phoneNumber</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">public </span><span class="s1">String toString(){</span>
+        <span class="s0">return </span><span class="s4">&quot;编号：&quot;</span><span class="s1">+id+</span><span class="s4">&quot; 姓名：&quot;</span><span class="s1">+name+</span><span class="s4">&quot; 性别：&quot;</span><span class="s1">+sex+</span><span class="s4">&quot; 通讯地址：&quot;</span><span class="s1">+address+</span><span class="s4">&quot; 邮箱地址：&quot;</span><span class="s1">+e_mail+</span><span class="s4">&quot; 电话：&quot;</span><span class="s1">+phoneNumber</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s3">/* 
+     * 添加功能 
+     * */</span>
+    <span class="s0">public static void </span><span class="s1">addFunction(){</span><span class="s3">//添加功能</span>
+        <span class="s1">Infro infro = </span><span class="s0">new </span><span class="s1">Infro(</span><span class="s4">&quot;&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">System.out.println(</span><span class="s4">&quot;请输入添加的数据：&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">Scanner in = </span><span class="s0">new </span><span class="s1">Scanner(System.in)</span><span class="s0">;</span>
+        <span class="s1">System.out.println(</span><span class="s4">&quot;输入编号：&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">infro.id = in.next()</span><span class="s0">;</span>
+        <span class="s1">System.out.println(</span><span class="s4">&quot;输入姓名：&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">infro.name = in.next()</span><span class="s0">;</span>
+        <span class="s1">System.out.println(</span><span class="s4">&quot;输入性别：&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">infro.sex = in.next()</span><span class="s0">;</span>
+        <span class="s1">System.out.println(</span><span class="s4">&quot;输入通讯地址：&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">infro.address = in.next()</span><span class="s0">;</span>
+        <span class="s1">System.</span>
+                <span class="s1">out.println(</span><span class="s4">&quot;输入邮箱地址：&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">infro.e_mail = in.next()</span><span class="s0">;</span>
+        <span class="s1">System.out.println(</span><span class="s4">&quot;输入电话：&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">infro.phoneNumber = in.next()</span><span class="s0">;</span>
+        <span class="s1">list.add(index</span><span class="s0">,</span><span class="s1">infro)</span><span class="s0">;</span>
+        <span class="s1">index++</span><span class="s0">;</span>
+        <span class="s0">if</span><span class="s1">(list.isEmpty()){</span>
+            <span class="s1">System.out.println(</span><span class="s4">&quot;数据添加失败啦&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">}</span><span class="s0">else</span><span class="s1">{</span>
+            <span class="s1">System.out.println(</span><span class="s4">&quot;数据添加成功啦&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">len++</span><span class="s0">;</span><span class="s3">//list集合长度加一</span>
+<span class="s3">//          System.out.println(list.get(0).toString());</span>
+        <span class="s1">}</span>
+
+    <span class="s1">}</span>
+    <span class="s3">//  public static void deleteFunction(){//删除功能</span>
+<span class="s3">//      System.out.println(&quot;输入要删除的联系人的编号&quot;);</span>
+<span class="s3">//      Scanner in_2 = new Scanner(System.in);</span>
+<span class="s3">//      String d1 = in_2.nextLine();</span>
+<span class="s3">//      for(int a= 0; a&lt;len;a++){</span>
+<span class="s3">//          if(d1.equals(list.get(a).id)){</span>
+<span class="s3">//              list.remove(list.get(a));</span>
+<span class="s3">//              len --;</span>
+<span class="s3">//          }</span>
+<span class="s3">//      }</span>
+<span class="s3">//  }</span>
+    <span class="s3">/* 
+     * 删除功能 
+     * */</span>
+    <span class="s0">public static void </span><span class="s1">deleteFunction(){</span>
+        <span class="s1">System.out.println(</span><span class="s4">&quot;输入要删除的联系人的编号&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">Scanner in_2 = </span><span class="s0">new </span><span class="s1">Scanner(System.in)</span><span class="s0">;</span>
+        <span class="s1">String d1 = in_2.nextLine()</span><span class="s0">;</span>
+        <span class="s1">java.util.Iterator&lt;Infro&gt; it = list.iterator()</span><span class="s0">;</span>
+        <span class="s0">while </span><span class="s1">(it.hasNext()){</span>
+            <span class="s1">Infro infro = it.next()</span><span class="s0">;</span>
+            <span class="s0">if </span><span class="s1">(infro.id.equals(d1)){</span>
+                <span class="s1">it.remove()</span><span class="s0">;</span>
+                <span class="s1">--index</span><span class="s0">;</span><span class="s3">//一定要加这个，否则当做了删除操作再做添加操作的时候会出现异常（类似于指针，栈）</span>
+                <span class="s1">System.out.println(</span><span class="s4">&quot;删除完毕&quot;</span><span class="s1">+</span><span class="s4">&quot;此时通讯录记录条数为：&quot; </span><span class="s1">+ --len)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s3">/* 
+     *                     修改功能 
+     * */</span>
+    <span class="s0">public static void </span><span class="s1">reditFunction(){</span>
+        <span class="s1">System.out.println(</span><span class="s4">&quot;输入要修改的通讯录的Id&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">Scanner in_r = </span><span class="s0">new </span><span class="s1">Scanner(System.in)</span><span class="s0">;</span>
+        <span class="s1">String r1 = in_r.nextLine()</span><span class="s0">;</span>
+        <span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">a = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">a &lt; len</span><span class="s0">;</span><span class="s1">a++){</span>
+            <span class="s0">if</span><span class="s1">(r1.equals(list.get(a).id)){</span>
+                <span class="s1">System.out.println(</span><span class="s4">&quot;输入修改后的姓名：&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">String name_1 = in_r.next()</span><span class="s0">;</span>
+                <span class="s1">list.get(a).name = name_1</span><span class="s0">;</span>
+                <span class="s1">System.out.println(</span><span class="s4">&quot;输入修改后的性别：&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">String sex_1 = in_r.next()</span><span class="s0">;</span>
+                <span class="s1">list.get(a).sex = sex_1</span><span class="s0">;</span>
+                <span class="s1">System.out.println(</span><span class="s4">&quot;输入修改后的通讯地址：&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">String address_1 = in_r.next()</span><span class="s0">;</span>
+                <span class="s1">list.get(a).address = address_1</span><span class="s0">;</span>
+                <span class="s1">System.out.println(</span><span class="s4">&quot;输入修改后的邮箱地址：&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">String e_mail_1 = in_r.next()</span><span class="s0">;</span>
+                <span class="s1">list.get(a).e_mail = e_mail_1</span><span class="s0">;</span>
+                <span class="s1">System.out.println(</span><span class="s4">&quot;输入修改后的电话：&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">String phoneNumber_1 = in_r.next()</span><span class="s0">;</span>
+                <span class="s1">list.get(a).phoneNumber = phoneNumber_1</span><span class="s0">;</span>
+                <span class="s1">System.out.println(</span><span class="s4">&quot;数据修改完毕&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s3">/* 
+     * 查询功能 
+     * */</span>
+    <span class="s0">public static void </span><span class="s1">searchFunction() </span><span class="s0">throws </span><span class="s1">Exception{</span><span class="s3">//查询功能</span>
+        <span class="s1">System.out.println(</span><span class="s4">&quot;请输入要查询的姓名：&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">Scanner in_1 = </span><span class="s0">new </span><span class="s1">Scanner(System.in)</span><span class="s0">;</span>
+        <span class="s1">String s1=in_1.nextLine()</span><span class="s0">;</span>
+        <span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">a= </span><span class="s2">0</span><span class="s0">; </span><span class="s1">a&lt;len</span><span class="s0">;</span><span class="s1">a++){</span><span class="s3">//切记，，这里不能用a&lt;=list.seze(),否则会数组越界异常</span>
+            <span class="s0">if</span><span class="s1">(s1.equals(list.get(a).name)){</span>
+                <span class="s1">System.out.println(list.get(a).toString())</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s3">/* 
+     * 显示功能 
+     * */</span>
+    <span class="s0">public static void </span><span class="s1">showFunction(){</span>
+        <span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s2">0 </span><span class="s0">;</span><span class="s1">i&lt;len</span><span class="s0">;</span><span class="s1">i++){</span>
+            <span class="s1">System.out.println(list.get(i).toString())</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s3">/* 
+     *                      保存功能 
+     * */</span>
+    <span class="s0">public static void </span><span class="s1">writeFunction() </span><span class="s0">throws </span><span class="s1">IOException{</span>
+        <span class="s1">FileWriter writer = </span><span class="s0">new </span><span class="s1">FileWriter(</span><span class="s4">&quot;通讯录管理.txt&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s2">0 </span><span class="s0">;</span><span class="s1">i&lt;len</span><span class="s0">;</span><span class="s1">i++){</span>
+            <span class="s1">String []strwriter = </span><span class="s0">new </span><span class="s1">String[len]</span><span class="s0">;</span>
+            <span class="s1">strwriter[i]=list.get(i).toString()</span><span class="s0">;</span>
+            <span class="s1">writer.write(strwriter[i])</span><span class="s0">;</span>
+            <span class="s1">writer.write(</span><span class="s4">&quot;</span><span class="s0">\r\n</span><span class="s4">&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">System.out.println(</span><span class="s4">&quot;成功写入一行数据到 通讯录管理.txt 中&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s1">writer.close()</span><span class="s0">;</span><span class="s3">//关闭写入流，释放资源</span>
+    <span class="s1">}</span>
+    <span class="s3">/* 
+     *                      读取功能 
+     * */</span>
+    <span class="s0">public static void </span><span class="s1">readFunction() </span><span class="s0">throws </span><span class="s1">IOException{</span>
+        <span class="s1">FileReader reader = </span><span class="s0">new </span><span class="s1">FileReader(</span><span class="s4">&quot;通讯录管理.txt&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">BufferedReader br = </span><span class="s0">new </span><span class="s1">BufferedReader(reader)</span><span class="s0">;</span>
+        <span class="s1">String str</span><span class="s0">;</span>
+        <span class="s0">while</span><span class="s1">((str = br.readLine()) != </span><span class="s0">null</span><span class="s1">){</span><span class="s3">//每次读取一行文本，判断是否到达文件尾</span>
+            <span class="s1">System.out.println(str)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s1">br.close()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+<span class="s1">}</span>
+
+
+<span class="s0">public class </span><span class="s1">Demo </span><span class="s0">extends </span><span class="s1">JFrame {</span>
+
+    <span class="s3">/* 
+     * 界面设计 
+     * */</span>
+    <span class="s0">public </span><span class="s1">Demo(){</span>
+        <span class="s1">Container c = getContentPane()</span><span class="s0">; </span><span class="s3">//定义一个顶级容器c</span>
+        <span class="s1">JPanel jp = </span><span class="s0">new </span><span class="s1">JPanel()</span><span class="s0">;   </span><span class="s3">//新建JPanel面板--jp</span>
+        <span class="s1">JButton button1 = </span><span class="s0">new </span><span class="s1">JButton(</span><span class="s4">&quot;新建联系人&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">JButton button2 = </span><span class="s0">new </span><span class="s1">JButton(</span><span class="s4">&quot;删除联系人&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">JButton button3 = </span><span class="s0">new </span><span class="s1">JButton(</span><span class="s4">&quot;编辑联系人&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">JButton button4 = </span><span class="s0">new </span><span class="s1">JButton(</span><span class="s4">&quot;查找联系人&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">JButton button5 = </span><span class="s0">new </span><span class="s1">JButton(</span><span class="s4">&quot;显示所有联系人&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">JButton button6 = </span><span class="s0">new </span><span class="s1">JButton(</span><span class="s4">&quot;保存联系人到本地&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">JButton button7 = </span><span class="s0">new </span><span class="s1">JButton(</span><span class="s4">&quot;读取本地联系人&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">jp.setLayout(</span><span class="s0">new </span><span class="s1">GridLayout(</span><span class="s2">2</span><span class="s0">,</span><span class="s2">4</span><span class="s0">,</span><span class="s2">5</span><span class="s0">,</span><span class="s2">5</span><span class="s1">))</span><span class="s0">;</span><span class="s3">//新建网格布局管理器（行数，列数，组件间的水平垂直间距）</span>
+        <span class="s1">jp.add(button1)</span><span class="s0">;</span>
+        <span class="s1">jp.add(button2)</span><span class="s0">;</span>
+        <span class="s1">jp.add(button3)</span><span class="s0">;</span>
+        <span class="s1">jp.add(button4)</span><span class="s0">;</span>
+        <span class="s1">jp.add(button5)</span><span class="s0">;</span>
+        <span class="s1">jp.add(button6)</span><span class="s0">;</span>
+        <span class="s1">jp.add(button7)</span><span class="s0">;</span>
+        <span class="s1">c.add(jp)</span><span class="s0">;</span><span class="s3">//将JPanel面板jp添加到顶级容器c中</span>
+        <span class="s1">setSize(</span><span class="s2">600</span><span class="s0">,</span><span class="s2">500</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">setTitle(</span><span class="s4">&quot;*通 讯 录 管 理 系 统*&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">setVisible(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">setResizable(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span><span class="s3">//窗体大小由程序员决定，用户不能自由改变大小</span>
+        <span class="s1">setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)</span><span class="s0">;</span>
+
+
+        <span class="s3">/* 
+         *按键响应 
+         * 
+         * */</span>
+        <span class="s1">button1.addActionListener(</span><span class="s0">new </span><span class="s1">ActionListener(){</span><span class="s3">//添加功能实现</span>
+            <span class="s0">public void </span><span class="s1">actionPerformed(ActionEvent arg0){</span>
+                <span class="s1">Infro.addFunction()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+        <span class="s1">button2.addActionListener(</span><span class="s0">new </span><span class="s1">ActionListener(){</span><span class="s3">//删除功能实现</span>
+            <span class="s0">public void </span><span class="s1">actionPerformed(ActionEvent arg0){</span>
+                <span class="s1">Infro.deleteFunction()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+        <span class="s1">button3.addActionListener(</span><span class="s0">new </span><span class="s1">ActionListener(){</span><span class="s3">//修改功能实现</span>
+            <span class="s0">public void </span><span class="s1">actionPerformed(ActionEvent arg0){</span>
+                <span class="s1">Infro.reditFunction()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+        <span class="s1">button4.addActionListener(</span><span class="s0">new </span><span class="s1">ActionListener(){</span><span class="s3">//查询功能实现</span>
+            <span class="s0">public void </span><span class="s1">actionPerformed(ActionEvent arg0){</span>
+                <span class="s0">try </span><span class="s1">{</span>
+                    <span class="s1">Infro.searchFunction()</span><span class="s0">;</span>
+                <span class="s1">} </span><span class="s0">catch </span><span class="s1">(Exception e) {</span>
+                    <span class="s3">// TODO Auto-generated catch block</span>
+                    <span class="s1">e.printStackTrace()</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+        <span class="s1">button5.addActionListener(</span><span class="s0">new </span><span class="s1">ActionListener(){</span><span class="s3">//显示功能实现</span>
+            <span class="s0">public void </span><span class="s1">actionPerformed(ActionEvent arg0){</span>
+                <span class="s1">Infro.showFunction()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+        <span class="s1">button6.addActionListener(</span><span class="s0">new </span><span class="s1">ActionListener(){</span><span class="s3">//保存功能实现</span>
+            <span class="s0">public void </span><span class="s1">actionPerformed(ActionEvent arg0){</span>
+                <span class="s0">try </span><span class="s1">{</span>
+                    <span class="s1">Infro.writeFunction()</span><span class="s0">;</span>
+                <span class="s1">} </span><span class="s0">catch </span><span class="s1">(IOException e) {</span>
+                    <span class="s1">e.printStackTrace()</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+        <span class="s1">button7.addActionListener(</span><span class="s0">new </span><span class="s1">ActionListener(){</span><span class="s3">//读取功能实现</span>
+            <span class="s0">public void </span><span class="s1">actionPerformed(ActionEvent arg0){</span>
+                <span class="s0">try </span><span class="s1">{</span>
+                    <span class="s1">Infro.readFunction()</span><span class="s0">;</span>
+                <span class="s1">} </span><span class="s0">catch </span><span class="s1">(IOException e) {</span>
+                    <span class="s3">// TODO Auto-generated catch block</span>
+                    <span class="s1">e.printStackTrace()</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public static void </span><span class="s1">main(String[] args) {</span>
+        <span class="s3">// TODO Auto-generated method stub</span>
+        <span class="s0">new </span><span class="s1">Demo()</span><span class="s0">;</span>
+        <span class="s1">Infro a = </span><span class="s0">new </span><span class="s1">Infro(</span><span class="s4">&quot;&quot;</span><span class="s0">, </span><span class="s4">&quot;&quot;</span><span class="s0">, </span><span class="s4">&quot;&quot;</span><span class="s0">, </span><span class="s4">&quot;&quot;</span><span class="s0">, </span><span class="s4">&quot;&quot;</span><span class="s0">, </span><span class="s4">&quot;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+<span class="s1">}</span>
+</pre>
+</body>
+</html>
